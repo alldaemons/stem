@@ -1,0 +1,95 @@
+/*
+ *
+ */
+package pascaltriangle2;
+import java.io.*;
+import java.util.*;
+import static java.lang.Math.*;
+/**
+ * @author ing. Jesús Carroll
+ */
+public class PascalTriangle2 {
+
+    /**
+     * @param args the command line arguments
+     * @throws java.io.IOException
+     */
+    public static void main(String[] args) throws IOException {
+        String cad;
+        InputStreamReader ir;
+        BufferedReader bf;
+        
+        //1. Crea objeto InputStreamReader
+        ir = new InputStreamReader(System.in);
+        // 2. Crea objeto BufferedReader
+        bf = new BufferedReader(ir);
+        System.out.println("Triángulo variante de Pascal");
+        System.out.println("Introduzca el número entero positivo para generarlo (mayor que 0):");
+        // 3. Lee la línea de texto introducida
+        cad = bf.readLine();
+        System.out.println("El número introducido es:" + cad + "\n");
+        try{
+            GenerarRenglon(Integer.parseInt(cad));
+        }
+        catch(Exception ex){
+            System.out.println("Valor incorrecto en el programa. Terminado.");
+        }
+        System.out.println("\nPrograma Terminado.");
+    }
+    
+    /*
+     * Retorna el punto medio de un renglón de acuerdo a la longitud 
+     * que se genera según el nivel del renglón
+     */
+    static int calcula_base(int level){
+        int k_medium_value = 2*level - 1;
+        return k_medium_value;
+    }
+    
+    static void GenerarRenglon(int n){
+        
+        /* 
+        Construir el triángulo según el número especificado que determina 
+        la altura de la figura e iterar hasta alcanzar dicho número
+        */
+        if (n <= 0 ) return;
+        int lbase = n;
+      
+        for(int i=1;i<=n;i++){
+            int s = 1;
+            int l;
+            l = calcula_base(i);
+            int j = i;
+            int k = 1;
+            int m;            
+            m = (int)(Math.round(l / 2)) + 1; // Punto medio
+            
+            /*------------------------------* 
+             * Control de espacio por línea 
+             *------------------------------*/
+            int bloque = (int)(Math.round(calcula_base(lbase) / 2));
+            String espacio = "\t";
+            for(int p=1; p <= bloque; p++) {
+                espacio = (n == 1) ? "\t": espacio + "\t"; 
+            }
+            --lbase;            
+            System.out.print(espacio);
+            
+            do
+            {   
+                System.out.print(j + "\t");                                
+                // Decrementar luego del punto medio
+                if(s >= m){              
+                   k = -1;
+                   if(j == 0) {j = 10; }
+                }                
+                j = j + k;              // Dígito del triángulo
+                s = s + 1;              // Avanza posición                
+                if(j == 10){ j = 0; }   // Control de dígitos 0 al 9                
+            } while(s <= l);
+                      
+            // Termina el renglón.
+            System.out.println("\n");
+        }        
+    }
+}
